@@ -1,16 +1,25 @@
-<input type="file" (change)="onFileSelected($event)" />
-<button (click)="detectFace()">Detect Face</button>
+<h1>Detector de Emociones</h1>
 
+<!-- 📁 Opción: Subir archivo -->
+<input type="file" (change)="onFileSelected($event)">
+<br />
 
-@if (faces.length > 0) {
-  <div >
-    <h3>Detected Faces:</h3>
-    <ul>
-      @for (face of faces; track $index) {
-        <li>
-          Face at x: {{ face.x }} y: {{ face.y }} w: {{ face.w }} h: {{ face.h }}
-        </li>
-      }
-    </ul>
-  </div>
-}
+<!-- 📸 Opción: Cámara -->
+<video #video autoplay playsinline width="250" height="250"></video>
+<canvas #canvas width="250" height="250" hidden></canvas>
+<br />
+<button (click)="capturarImagen()">📷 Capturar</button>
+
+<!-- Vista previa -->
+<br /><br />
+<img *ngIf="imagenUrl" [src]="imagenUrl" width="250" height="250" />
+<br />
+<button (click)="enviarImagen()" [disabled]="!imagenBlob">Detectar emoción</button>
+
+<!-- Resultado -->
+<div *ngIf="resultado.length">
+  <h3>Emociones detectadas:</h3>
+  <ul>
+    <li *ngFor="let emocion of resultado">{{ emocion }}</li>
+  </ul>
+</div>
