@@ -5,9 +5,9 @@ import { Emocion } from './service/emocion';
 
 @Component({
   selector: 'app-root',
-  imports: [ FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
   imagenUrl: string | null = null;
@@ -18,6 +18,16 @@ export class App {
 
   ngAfterViewInit() {
     const video = document.querySelector('video')!;
+
+    const checkOpenCV = setInterval(() => {
+      if ((window as any).cv?.imread) {
+        clearInterval(checkOpenCV);
+        this.iniciarCamara(video);
+      }
+    }, 100);
+  }
+
+  iniciarCamara(video: HTMLVideoElement) {
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((stream) => {
@@ -54,7 +64,9 @@ export class App {
   enviarImagen() {
     if (!this.imagenBlob) return;
 
-    const file = new File([this.imagenBlob], 'imagen.jpg', { type: 'image/jpeg' });
+    const file = new File([this.imagenBlob], 'imagen.jpg', {
+      type: 'image/jpeg',
+    });
     this.servicioEmocion.detectar(file).subscribe({
       next: (res) => (this.resultado = res.emociones),
       error: (err) => console.error(err),

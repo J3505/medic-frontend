@@ -1,25 +1,68 @@
-<h1>Detector de Emociones</h1>
+<div class="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+  <div class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-md space-y-6">
+    <h1 class="text-2xl font-bold text-center text-indigo-600">
+      🎭 Detector de Emociones
+    </h1>
 
-<!-- 📁 Opción: Subir archivo -->
-<input type="file" (change)="onFileSelected($event)">
-<br />
 
-<!-- 📸 Opción: Cámara -->
-<video #video autoplay playsinline width="250" height="250"></video>
-<canvas #canvas width="250" height="250" hidden></canvas>
-<br />
-<button (click)="capturarImagen()">📷 Capturar</button>
 
-<!-- Vista previa -->
-<br /><br />
-<img *ngIf="imagenUrl" [src]="imagenUrl" width="250" height="250" />
-<br />
-<button (click)="enviarImagen()" [disabled]="!imagenBlob">Detectar emoción</button>
+    <!-- Subir archivo -->
+    <div class="space-y-2">
+      <label class="block text-sm font-medium text-gray-700">Sube una imagen</label>
+      <input
+        type="file"
+        (change)="onFileSelected($event)"
+        class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+      />
+    </div>
 
-<!-- Resultado -->
-<div *ngIf="resultado.length">
-  <h3>Emociones detectadas:</h3>
-  <ul>
-    <li *ngFor="let emocion of resultado">{{ emocion }}</li>
-  </ul>
+
+
+    <!-- Cámara -->
+    <div class="flex flex-col items-center space-y-2">
+      <label class="block text-sm font-medium text-gray-700"
+        >O usa tu cámara</label
+      >
+      <video
+        #video
+        autoplay
+        playsinline
+        width="250"
+        height="250"
+        class="rounded-lg border"
+      ></video>
+      <canvas #canvas width="250" height="250" hidden></canvas>
+      <button
+        (click)="capturarImagen()"
+        class="mt-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+      >
+        📷 Capturar
+      </button>
+    </div>
+
+    <!-- Vista previa -->
+    <div *ngIf="imagenUrl" class="flex flex-col items-center space-y-2">
+      <img
+        [src]="imagenUrl"
+        width="250"
+        height="250"
+        class="rounded-lg shadow-md"
+      />
+      <button
+        (click)="enviarImagen()"
+        [disabled]="!imagenBlob"
+        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-gray-400 transition"
+      >
+        🔍 Detectar emoción
+      </button>
+    </div>
+
+    <!-- Resultado -->
+    <div *ngIf="resultado.length" class="pt-4 border-t">
+      <h3 class="text-lg font-semibold text-gray-800">Emociones detectadas:</h3>
+      <ul class="list-disc list-inside text-gray-700 mt-2 space-y-1">
+        <li *ngFor="let emocion of resultado">{{ emocion }}</li>
+      </ul>
+    </div>
+  </div>
 </div>
